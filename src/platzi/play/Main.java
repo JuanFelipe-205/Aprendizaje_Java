@@ -1,41 +1,45 @@
 package platzi.play;
 
 import platzi.play.contenido.Pelicula;
+import platzi.play.plataforma.Plataforma;
 import platzi.play.plataforma.Usuario;
 import platzi.play.util.ScannerUtils;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 
 public class Main {
 
+    public static final String NOMBRE_PLATAFORMA = "PLATZY PLAY ";
+    public static final String VERSION = "1.0.0 ";
+
     public static void main(String[] args) {
 
-        System.out.println("PLATZY PLAY ");
+        Plataforma plataforma = new Plataforma(NOMBRE_PLATAFORMA);
+        System.out.println(NOMBRE_PLATAFORMA + " v" + VERSION);
 
-        /// Se instansea la clase Pelicula
-        Pelicula pelicula = new Pelicula();
-        Usuario usuario = new Usuario();
+        /// Pelicula:
+        String nombre = ScannerUtils.textoString("Nombre de la pelicula");
+        String genero = ScannerUtils.textoString("Tipo de genero");
+        int duracion = ScannerUtils.textoInt("Duracion");
+        double calificacion = (ScannerUtils.textoDouble("Calificacion"));
 
-        pelicula.titulo = ScannerUtils.textoString("Nombre de la pelicula");
-        pelicula.fechaEstreno = LocalDate.of(2018, 1, 11); /// Para setar valores en los LocalDate se usa .of
-        pelicula.genero = ScannerUtils.textoString("Tipo de genero");
-        pelicula.calificar(ScannerUtils.textoDouble("Calificacion"));
-        pelicula.duracion = ScannerUtils.textoInt("Duracion");
+        Pelicula pelicula = new Pelicula(nombre, duracion, genero, calificacion);
+        Pelicula pelicula2 = new Pelicula("Harry Potter", 200, "Fisicion", 4.8);
 
-        usuario.nombre = "Juan";
-        usuario.apellido = "Vargas";
-        usuario.edad = 19;
-        usuario.genero = "M";
-        usuario.fechaNacimineto = LocalDate.of(2005, 12, 15);
-        usuario.fechaRegistro = LocalDateTime.now();
+        /// Plataforma:
+        plataforma.agregar(pelicula);
+        plataforma.agregar(pelicula2);
+
+        /// Usuario:
+        LocalDate fechaNacimiento = LocalDate.of(2005, 12, 15);
+        Usuario usuario = new Usuario("Juan", "Vargas", 19, "M", fechaNacimiento);
+
+        System.out.println("\nPeliculas disponibles: ");
+        plataforma.mostrarTitulos();
 
         System.out.println("\nInformacion de usuario:");
         usuario.infomracionUsuario();
-
-        System.out.println("\nPelicula a ver:");
-        usuario.ver(pelicula);
 
         System.out.println("\nFicha tecnica de la pelicula: ");
         System.out.println(pelicula.obtenerFichaTecnica());

@@ -7,13 +7,24 @@ import java.time.LocalDateTime;
 
 public class Usuario {
 
-    public String nombre;
-    public String apellido;
-    public int edad;
-    public String genero;
-    public LocalDateTime fechaRegistro;
-    public LocalDate fechaNacimineto;
+    private String nombre;
+    private String apellido;
+    private int edad;
+    private String genero;
+    private LocalDateTime fechaRegistro;
+    private LocalDate fechaNacimineto;
 
+    /// Constructores
+    public Usuario(String nombre, String apellido, int edad, String genero,  LocalDate fechaNacimineto) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.edad = edad;
+        this.genero = genero;
+        this.fechaRegistro = LocalDateTime.now();
+        this.fechaNacimineto = fechaNacimineto;
+    }
+
+    /// Metodos
     public void ver(Pelicula pelicula){
         System.out.println(nombreCompleto());
         pelicula.reporducir();
@@ -33,5 +44,34 @@ public class Usuario {
                 "\nFecha registro: " + fechaRegistro.getYear() + " / " + fechaRegistro.getMonth() +
                 "\nFecha nacimiento:" + fechaNacimineto.getYear() + " / "  + fechaNacimineto.getMonth() + " / " + fechaNacimineto.getDayOfMonth()
         );
+    }
+
+    /// Set y Get
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public int getEdad() {
+        return edad;
+    }
+
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+
+    public LocalDateTime getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public LocalDate getFechaNacimineto() {
+        return fechaNacimineto;
     }
 }

@@ -6,14 +6,28 @@ import java.util.Date;
 public class Pelicula {
 
     /// El valor por refencia de estos datos es NULL, 0, false.
-    public String titulo;
-    public String descripcion;
-    public int duracion;
-    public String genero;
-    public LocalDate fechaEstreno;
-    public double calificacion;
-    public boolean disponible;
+    private String titulo;
+    private int duracion;
+    private String genero;
+    private LocalDate fechaEstreno;
+    private double calificacion;
+    private boolean disponible;
 
+    /// Constructores
+    public Pelicula(String titulo, int duracion, String genero) {
+        this.titulo = titulo;
+        this.duracion = duracion;
+        this.genero = genero;
+        this.fechaEstreno = LocalDate.now();
+        this.disponible = true;
+    }
+
+    public Pelicula(String titulo, int duracion, String genero, double calificacion) {
+        this(titulo, duracion, genero);
+       this.calificar(calificacion);
+    }
+
+    /// Metodos
     public void reporducir(){
         System.out.println("Reproduciendo ... "+ titulo);
     }
@@ -46,4 +60,44 @@ public class Pelicula {
         return calificacion >= 4;
     }
 
+    ///  Get y Set
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public int getDuracion() {
+        return duracion;
+    }
+
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+
+    public LocalDate getFechaEstreno() {
+        return fechaEstreno;
+    }
+
+    public void setFechaEstreno(LocalDate fechaEstreno) {
+        this.fechaEstreno = fechaEstreno;
+    }
+
+    public double getCalificacion() {
+        return calificacion;
+    }
+
+    public void setCalificacion(double calificacion) {
+        this.calificacion = calificacion;
+    }
+
+    public boolean isDisponible() {
+        return disponible;
+    }
+
+    public void setDisponible(boolean disponible) {
+        this.disponible = disponible;
+    }
 }
