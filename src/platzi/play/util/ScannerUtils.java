@@ -14,11 +14,23 @@ public class ScannerUtils {
     }
 
     public static int textoInt(String mensaje){
+
+        while (!sc.hasNextInt()){
+            System.out.println("Dato invalido " + mensaje );
+            sc.next();
+        }
+
         System.out.print(mensaje + ": ");
         return sc.nextInt();
     }
 
     public static double textoDouble(String mensaje){
+
+        while (!sc.hasNextDouble()){
+            System.out.println("Dato invalido " + mensaje );
+            sc.next();
+        }
+
         System.out.print(mensaje + ": ");
         return sc.nextDouble();
     }

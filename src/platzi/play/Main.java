@@ -12,37 +12,51 @@ public class Main {
 
     public static final String NOMBRE_PLATAFORMA = "PLATZY PLAY ";
     public static final String VERSION = "1.0.0 ";
+    public static final int AGREGAR = 1, MOSTRAR = 2, BUSCAR = 3, ELIMINAR = 4, SALIR = 5 ;
 
     public static void main(String[] args) {
 
         Plataforma plataforma = new Plataforma(NOMBRE_PLATAFORMA);
         System.out.println(NOMBRE_PLATAFORMA + " v" + VERSION);
 
-        /// Pelicula:
-        String nombre = ScannerUtils.textoString("Nombre de la pelicula");
-        String genero = ScannerUtils.textoString("Tipo de genero");
-        int duracion = ScannerUtils.textoInt("Duracion");
-        double calificacion = (ScannerUtils.textoDouble("Calificacion"));
+        while(true){
+            System.out.println("Escoja una opcion: ");
+            int opcion = ScannerUtils.textoInt("1. Agregar elemento \n2. Mostrar  \n3. Buscar titulo \n4. Eliminar elemento \n5. Salir");
 
-        Pelicula pelicula = new Pelicula(nombre, duracion, genero, calificacion);
-        Pelicula pelicula2 = new Pelicula("Harry Potter", 200, "Fisicion", 4.8);
+            System.out.println("Opcion elegida: " + opcion);
 
-        /// Plataforma:
-        plataforma.agregar(pelicula);
-        plataforma.agregar(pelicula2);
+            switch (opcion) {
+                case AGREGAR : {
+                    String nombre = ScannerUtils.textoString("Nombre de la pelicula");
+                    String genero = ScannerUtils.textoString("Tipo de genero");
+                    int duracion = ScannerUtils.textoInt("Duracion");
+                    double calificacion = (ScannerUtils.textoDouble("Calificacion"));
 
-        /// Usuario:
-        LocalDate fechaNacimiento = LocalDate.of(2005, 12, 15);
-        Usuario usuario = new Usuario("Juan", "Vargas", 19, "M", fechaNacimiento);
+                    plataforma.agregar(new Pelicula(nombre, duracion, genero, calificacion));
+                }
+                case MOSTRAR : plataforma.mostrarTitulos();
+                case BUSCAR : {
+                    System.out.println("Pendiente ...");
+                }
+                case ELIMINAR : System.out.println("Pendiente ....");
 
-        System.out.println("\nPeliculas disponibles: ");
-        plataforma.mostrarTitulos();
+                case SALIR : System.exit(0);
 
-        System.out.println("\nInformacion de usuario:");
-        usuario.infomracionUsuario();
+            };
+            System.out.println();
+        }
 
-        System.out.println("\nFicha tecnica de la pelicula: ");
-        System.out.println(pelicula.obtenerFichaTecnica());
-
+//        /// Usuario:
+//        LocalDate fechaNacimiento = LocalDate.of(2005, 12, 15);
+//        Usuario usuario = new Usuario("Juan", "Vargas", 19, "M", fechaNacimiento);
+//
+//        System.out.println("\nPeliculas disponibles: ");
+//        plataforma.mostrarTitulos();
+//
+//        System.out.println("\nInformacion de usuario:");
+//        usuario.infomracionUsuario();
+//
+//        System.out.println("\nFicha tecnica de la pelicula: ");
+//        System.out.println(pelicula.obtenerFichaTecnica());
     }
 }

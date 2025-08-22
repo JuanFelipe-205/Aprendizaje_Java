@@ -32,4 +32,16 @@ public class Plataforma {
     public List<Pelicula> getConteinido() {
         return conteinido;
     }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setConteinido(List<Pelicula> conteinido) {
+        this.conteinido = conteinido;
+    }
 }
