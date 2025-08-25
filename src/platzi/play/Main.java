@@ -21,12 +21,13 @@ public class Main {
     public static final int AGREGAR = 1;
     public static final int ELIMINAR = 2;
     public static final int MOSTRAR = 3;
-    public static final int BUSCARPELICULA = 4;
-    public static final int REPRODUCIRPELICULA = 5;
-    public static final int VERPOPULARES = 6;
-    public static final int BUSCARGENERO = 7;
-    public static final int FILTRARPORPUNTACION = 8;
-    public static final int FILTRARPORDURACION = 9;
+    public static final int MOSTRAR_POR_TIPO = 4;
+    public static final int BUSCARPELICULA = 5;
+    public static final int REPRODUCIRPELICULA = 6;
+    public static final int VERPOPULARES = 7;
+    public static final int BUSCARGENERO = 8;
+    public static final int FILTRARPORPUNTACION = 9;
+    public static final int FILTRARPORDURACION = 10;
     public static final int SALIR = 0;
 
     public static void main(String[] args) {
@@ -36,15 +37,17 @@ public class Main {
 
         cargarPeliculas(plataforma);
         System.out.println("Mas de " + plataforma.getDuracionTotal() +" minutos de contenido\n");
+        plataforma.getContenidoPromocionable().forEach(promocionable -> System.out.println(promocionable.promocionar() + "\n"));
 
         while(true){
             int opcion = ScannerUtils.textoInt(""" 
             Escoja una opcion... 
-            1. Agregar elemento     \t6. Mejores Peliculas 
-            2. Eliminar contenido   \t7. Filtrar por genero 
-            3. Mostrar contenido    \t8. Filtrar por calificacion 
-            4. Buscar titulo        \t9. Filtrar por duracion
-            5. Reproducir contenido \t0. Salir
+            1. Agregar elemento     \t6. Reproducir contenido
+            2. Eliminar contenido   \t7. Mejores Peliculas 
+            3. Mostrar contenido    \t8. Filtrar por genero 
+            4. Buscar por tipo      \t9. Filtrar por calificacion 
+            5. Buscar titulo        \t10. Filtrar por duracion
+            0. Salir
             """);
 
             System.out.println("\nOpcion elegida: " + opcion  +"...");
@@ -87,6 +90,17 @@ public class Main {
                     List<String> titulos = plataforma.getTitulos();
                     titulos.forEach(System.out::println);
 
+                }
+                case MOSTRAR_POR_TIPO -> {
+                    int tipoDeContenido = ScannerUtils.textoInt("Que tipo de contenido quieres ver ? \n1. Peliculas \t2. Documentales");
+
+                    if (tipoDeContenido == 1){
+                        List<Pelicula> peliculas = plataforma.getPeliculas();
+                        peliculas.forEach(pelicula -> System.out.println(pelicula.obtenerFichaTecnica() + "\n"));
+                    }else{
+                        List<Documental> documentales = plataforma.getDocumentales();
+                        documentales.forEach(documental -> System.out.println(documental.obtenerFichaTecnica() + "\n"));
+                    }
                 }
                 case BUSCARPELICULA -> {
                     String busquedarTitulo = ScannerUtils.textoString("Nombre de la contenido");

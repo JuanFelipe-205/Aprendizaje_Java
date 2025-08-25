@@ -1,7 +1,10 @@
 package platzi.play.plataforma;
 
 import platzi.play.contenido.Contenido;
+import platzi.play.contenido.Documental;
 import platzi.play.contenido.Enums.Genero;
+import platzi.play.contenido.Pelicula;
+import platzi.play.contenido.Promocionable;
 import platzi.play.excepcion.PeliculaExistenteException;
 import platzi.play.util.FileUtils;
 
@@ -63,6 +66,27 @@ public class Plataforma {
                 .findFirst()
                 .orElse(null);
 
+    }
+
+    public List<Pelicula> getPeliculas(){
+        return contenido.stream()
+                .filter(contenido -> contenido instanceof Pelicula)
+                .map(contenidoFiltrado -> (Pelicula) contenidoFiltrado)
+                .toList();
+    }
+
+    public List<Promocionable> getContenidoPromocionable(){
+        return contenido.stream()
+                .filter(contenido -> contenido instanceof Promocionable)
+                .map(contenidoProm -> (Promocionable) contenidoProm)
+                .toList();
+    }
+
+    public List<Documental> getDocumentales(){
+        return contenido.stream()
+                .filter(contenido -> contenido instanceof Documental)
+                .map(contenidoFiltrado -> (Documental) contenidoFiltrado)
+                .toList();
     }
 
     public List<Contenido> buscarGenero(Genero genero){

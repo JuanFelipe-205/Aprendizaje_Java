@@ -6,7 +6,7 @@ import platzi.play.contenido.Enums.Idioma;
 
 import java.time.LocalDate;
 
-public class Contenido {
+public abstract class Contenido {
 
     /// El valor por refencia de estos datos es NULL, 0, false.
     private String titulo;
@@ -35,9 +35,7 @@ public class Contenido {
     }
 
     /// Metodos
-    public void reporducirPelicula(){
-        System.out.println("Reproduciendo ... "+ titulo);
-    }
+    public abstract void reporducirPelicula();
 
     public String obtenerFichaTecnica(){
         return titulo + " (" + fechaEstreno.getYear() + ") " +
