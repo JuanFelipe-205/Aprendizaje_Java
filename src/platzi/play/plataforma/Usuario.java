@@ -1,6 +1,6 @@
 package platzi.play.plataforma;
 
-import platzi.play.contenido.Pelicula;
+import platzi.play.contenido.Contenido;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,9 +25,9 @@ public class Usuario {
     }
 
     /// Metodos
-    public void ver(Pelicula pelicula){
+    public void ver(Contenido contenido){
         System.out.println(nombreCompleto());
-        pelicula.reporducirPelicula();
+        contenido.reporducirPelicula();
         System.out.println();
     }
 

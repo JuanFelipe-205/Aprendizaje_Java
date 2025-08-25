@@ -1,8 +1,9 @@
 package platzi.play.plataforma;
 
+import platzi.play.contenido.Contenido;
 import platzi.play.contenido.Enums.Genero;
-import platzi.play.contenido.Pelicula;
 import platzi.play.excepcion.PeliculaExistenteException;
+import platzi.play.util.FileUtils;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -11,8 +12,8 @@ public class Plataforma {
 
     /// Atributos
     private String nombre;
-    private List<Pelicula> contenido;
-    private Map<Pelicula, Integer> visualizaciones;
+    private List<Contenido> contenido;
+    private Map<Contenido, Integer> visualizaciones;
 
     /// Constructor
     public Plataforma(String nombre) {
@@ -22,17 +23,18 @@ public class Plataforma {
     }
 
     /// Metodos
-    public void agregar(Pelicula elemento){
-        Pelicula pelicula = this.buscarTitulo(elemento.getTitulo());
+    public void agregar(Contenido elemento){
+        Contenido contenido = this.buscarTitulo(elemento.getTitulo());
 
-        if (pelicula != null){
+        if (contenido != null){
             throw new PeliculaExistenteException(elemento.getTitulo());
         }
 
+        FileUtils.escribirContenido(elemento);
         this.contenido.add(elemento);
     }
 
-    public void reproducir(Pelicula contenido){
+    public void reproducir(Contenido contenido){
         int conteoActual = visualizaciones.getOrDefault(contenido, 1);
         System.out.println(contenido.getTitulo() + " se ha reproducido: " + conteoActual);
 
@@ -40,22 +42,22 @@ public class Plataforma {
         contenido.reporducirPelicula();
     }
 
-    private void contarVisualizaciones(Pelicula contenido) {
+    private void contarVisualizaciones(Contenido contenido) {
         int conteoActual = visualizaciones.getOrDefault(contenido, 1);
         visualizaciones.put(contenido, conteoActual + 1);
     }
 
     public List<String> getTitulos(){
         return contenido.stream()
-                .map(Pelicula::getTitulo)
+                .map(Contenido::getTitulo)
                 .toList();
     }
 
-    public void eliminarTitulos(Pelicula pelicula){
-        this.contenido.remove(pelicula);
+    public void eliminarTitulos(Contenido contenido){
+        this.contenido.remove(contenido);
     }
 
-    public Pelicula buscarTitulo(String titulo){
+    public Contenido buscarTitulo(String titulo){
         return contenido.stream()
                 .filter(pelicula -> pelicula.getTitulo().equalsIgnoreCase(titulo))
                 .findFirst()
@@ -63,7 +65,7 @@ public class Plataforma {
 
     }
 
-    public List<Pelicula> buscarGenero(Genero genero){
+    public List<Contenido> buscarGenero(Genero genero){
         return contenido.stream()
                 .filter(pelicula -> pelicula.getGenero().equals(genero))
                 .toList();
@@ -71,28 +73,28 @@ public class Plataforma {
 
     public int getDuracionTotal(){
         return contenido.stream()
-                .mapToInt(Pelicula::getDuracion)
+                .mapToInt(Contenido::getDuracion)
                 .sum();
     }
 
-    public List<Pelicula> getPopulares(int cantidad){
+    public List<Contenido> getPopulares(int cantidad){
         return contenido.stream()
-                .sorted(Comparator.comparing(Pelicula::getCalificacion).reversed())
+                .sorted(Comparator.comparing(Contenido::getCalificacion).reversed())
                 .limit(cantidad)
                 .toList();
     }
 
-    public List<Pelicula> getPeliculaPuntacion(int calificacion){
+    public List<Contenido> getPeliculaPuntacion(int calificacion){
         return contenido.stream()
-                .sorted(Comparator.comparing(Pelicula::getCalificacion))
+                .sorted(Comparator.comparing(Contenido::getCalificacion))
                 .filter(contenido -> contenido.getCalificacion() == calificacion)
                 .toList();
     }
 
-    public List<Pelicula> getPeliculaDuracion(int opcion){
+    public List<Contenido> getPeliculaDuracion(int opcion){
         if (opcion == 1 ){
-            Optional<Pelicula> masLarga = contenido.stream()
-                    .max(Comparator.comparing(Pelicula::getDuracion));
+            Optional<Contenido> masLarga = contenido.stream()
+                    .max(Comparator.comparing(Contenido::getDuracion));
 
             return Stream.of(masLarga)
                     .filter(Optional::isPresent)
@@ -100,8 +102,8 @@ public class Plataforma {
                     .toList();
 
         } else if (opcion == 2) {
-            Optional<Pelicula> masCorta = contenido.stream()
-                    .min(Comparator.comparing(Pelicula::getDuracion));
+            Optional<Contenido> masCorta = contenido.stream()
+                    .min(Comparator.comparing(Contenido::getDuracion));
 
             return Stream.of(masCorta)
                     .filter(Optional::isPresent)
@@ -116,10 +118,10 @@ public class Plataforma {
     }
 
     /// GET y SET
-    public List<Pelicula> getcontenido() {
+    public List<Contenido> getcontenido() {
         return contenido;
     }
-    public void setcontenido(List<Pelicula> contenido) {
+    public void setcontenido(List<Contenido> contenido) {
         this.contenido = contenido;
     }
 

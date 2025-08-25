@@ -23,6 +23,7 @@ public class ScannerUtils {
             System.out.println("Dato invalido " + mensaje );
             sc.next();
         }
+
         int dato = sc.nextInt();
         sc.nextLine();
         return dato;
@@ -30,14 +31,16 @@ public class ScannerUtils {
 
     public static double textoDouble(String mensaje){
 
-        System.out.println(mensaje + "R: ");
+        System.out.println(mensaje + ": ");
 
         while (!sc.hasNextDouble()){
             System.out.println("Dato invalido " + mensaje );
             sc.next();
         }
 
-        return sc.nextDouble();
+        double dato = sc.nextDouble();
+        sc.nextLine();
+        return dato;
     }
 
     /// Plantear una opcion para juntar "capturarGenero, capturarIdioma, capturarCalidad"

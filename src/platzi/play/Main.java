@@ -1,11 +1,14 @@
 package platzi.play;
 
+import platzi.play.contenido.Contenido;
+import platzi.play.contenido.Documental;
 import platzi.play.contenido.Enums.Calidad;
 import platzi.play.contenido.Enums.Genero;
 import platzi.play.contenido.Enums.Idioma;
 import platzi.play.contenido.Pelicula;
 import platzi.play.excepcion.PeliculaExistenteException;
 import platzi.play.plataforma.Plataforma;
+import platzi.play.util.FileUtils;
 import platzi.play.util.ScannerUtils;
 
 import java.util.List;
@@ -15,7 +18,16 @@ public class Main {
 
     public static final String NOMBRE_PLATAFORMA = "PLATZY PLAY ";
     public static final String VERSION = "1.0.0 ";
-    public static final int AGREGAR = 1, ELIMINAR = 2, MOSTRAR = 3, BUSCARPELICULA = 4, REPRODUCIRPELICULA = 5,  VERPOPULARES = 6,  BUSCARGENERO = 7, FILTRARPORPUNTACION = 8, FILTRARPORDURACION = 9, SALIR = 0;
+    public static final int AGREGAR = 1;
+    public static final int ELIMINAR = 2;
+    public static final int MOSTRAR = 3;
+    public static final int BUSCARPELICULA = 4;
+    public static final int REPRODUCIRPELICULA = 5;
+    public static final int VERPOPULARES = 6;
+    public static final int BUSCARGENERO = 7;
+    public static final int FILTRARPORPUNTACION = 8;
+    public static final int FILTRARPORDURACION = 9;
+    public static final int SALIR = 0;
 
     public static void main(String[] args) {
 
@@ -28,18 +40,19 @@ public class Main {
         while(true){
             int opcion = ScannerUtils.textoInt(""" 
             Escoja una opcion... 
-            1. Agregar elemento    \t6. Mejores Peliculas 
-            2. Eliminar contenido  \t7. Filtrar por genero 
-            3. Mostrar Peliculas   \t8. Filtrar por calificacion 
-            4. Buscar titulo       \t9. Filtrar por duracion
-            5. Reproducir pelicula \t0. Salir
+            1. Agregar elemento     \t6. Mejores Peliculas 
+            2. Eliminar contenido   \t7. Filtrar por genero 
+            3. Mostrar contenido    \t8. Filtrar por calificacion 
+            4. Buscar titulo        \t9. Filtrar por duracion
+            5. Reproducir contenido \t0. Salir
             """);
 
             System.out.println("\nOpcion elegida: " + opcion  +"...");
 
             switch (opcion) {
                 case AGREGAR -> {
-                    String nombre = ScannerUtils.textoString("Nombre de la pelicula");
+                    int tipoContenido = ScannerUtils.textoInt("Que tipo que contenido quiere agregar ? \n1. Pelicula \t2.Documental \n");
+                    String nombre = ScannerUtils.textoString("Nombre de la contenido");
                     Genero genero = ScannerUtils.capturarGenero("Nombre de genero");
                     Idioma idioma = ScannerUtils.capturarIdioma("Idioma");
                     Calidad calidad = ScannerUtils.capturarCalidad("Calidad");
@@ -47,23 +60,27 @@ public class Main {
                     double calificacion = (ScannerUtils.textoDouble("Calificacion"));
 
                     try {
-                        plataforma.agregar(new Pelicula(nombre,  duracion, genero, idioma, calidad,calificacion ));
+                        if (tipoContenido == 1){
+                            plataforma.agregar(new Pelicula(nombre,  duracion, genero, idioma, calidad,calificacion));
+                        }else{
+                            String narrador = ScannerUtils.textoString("Nombre del narrador");
+                            plataforma.agregar(new Documental(nombre,  duracion, genero, idioma, calidad,calificacion, narrador));
+                        }
+
                     } catch (PeliculaExistenteException e) {
                         System.out.println(e.getMessage());
                     }
-
-                    plataforma.agregar(new Pelicula(nombre, duracion, genero, idioma, calidad, calificacion));
                 }
                 case ELIMINAR -> {
-                    String Titulo = ScannerUtils.textoString("Nombre de la pelicula");
-                    Pelicula pelicula = plataforma.buscarTitulo(Titulo);
+                    String Titulo = ScannerUtils.textoString("Nombre de la contenido");
+                    Contenido contenido = plataforma.buscarTitulo(Titulo);
 
-                    if (pelicula != null){
-                        plataforma.eliminarTitulos(pelicula);
-                        System.out.println("Se ha eliminado la pelicula ...");
+                    if (contenido != null){
+                        plataforma.eliminarTitulos(contenido);
+                        System.out.println("Se ha eliminado la contenido ...");
 
                     }else{
-                        System.out.println("La pelicula no existe ...");
+                        System.out.println("La contenido no existe ...");
                     }
                 }
                 case MOSTRAR -> {
@@ -72,54 +89,54 @@ public class Main {
 
                 }
                 case BUSCARPELICULA -> {
-                    String busquedarTitulo = ScannerUtils.textoString("Nombre de la pelicula");
-                    Pelicula pelicula = plataforma.buscarTitulo(busquedarTitulo);
+                    String busquedarTitulo = ScannerUtils.textoString("Nombre de la contenido");
+                    Contenido contenido = plataforma.buscarTitulo(busquedarTitulo);
 
-                    if (pelicula != null){
-                        System.out.println(pelicula.obtenerFichaTecnica());
+                    if (contenido != null){
+                        System.out.println(contenido.obtenerFichaTecnica());
                     }else{
-                        System.out.println("La pelicula no existe ...");
+                        System.out.println("La contenido no existe ...");
                     }
                 }
                 case REPRODUCIRPELICULA -> {
-                    String peliculaDeseada = ScannerUtils.textoString("Nombre de la pelicula");
-                    Pelicula pelicula = plataforma.buscarTitulo(peliculaDeseada);
+                    String peliculaDeseada = ScannerUtils.textoString("Nombre de la contenido");
+                    Contenido contenido = plataforma.buscarTitulo(peliculaDeseada);
 
-                    if (pelicula != null){
-                        plataforma.reproducir(pelicula);
+                    if (contenido != null){
+                        plataforma.reproducir(contenido);
                     }else {
-                        System.out.println("La pelicula " + peliculaDeseada + " no existe");
+                        System.out.println("La contenido " + peliculaDeseada + " no existe");
                     }
 
                 }
                 case BUSCARGENERO -> {
                     Genero busqueda = ScannerUtils.capturarGenero("Escoja una opcion: ");
 
-                    List<Pelicula> pelicula = plataforma.buscarGenero(busqueda);
-                    System.out.println("Cantidad de peliculas encontradas: " + pelicula.size());
-                    pelicula.forEach(titulo -> System.out.println(titulo.obtenerFichaTecnica() + "\n"));
+                    List<Contenido> contenido = plataforma.buscarGenero(busqueda);
+                    System.out.println("Cantidad de peliculas encontradas: " + contenido.size());
+                    contenido.forEach(titulo -> System.out.println(titulo.obtenerFichaTecnica() + "\n"));
                 }
                 case VERPOPULARES -> {
                     int cantidad = ScannerUtils.textoInt("Cantidad de peliculas");
-                    List<Pelicula> contenidoPopulares = plataforma.getPopulares(cantidad);
+                    List<Contenido> contenidoPopulares = plataforma.getPopulares(cantidad);
                     contenidoPopulares.forEach(contenido -> System.out.println(contenido.obtenerFichaTecnica() + "\n"));
                 }
                 case FILTRARPORPUNTACION ->{
                     int calificacion = ScannerUtils.textoInt("Calificacion");
                     if (calificacion <= 5 && calificacion >= 1){
-                        List<Pelicula> peliculaList = plataforma.getPeliculaPuntacion(calificacion);
-                        peliculaList.forEach(pelicula -> System.out.println(pelicula.obtenerFichaTecnica() + "\n"));
+                        List<Contenido> contenidoList = plataforma.getPeliculaPuntacion(calificacion);
+                        contenidoList.forEach(contenido -> System.out.println(contenido.obtenerFichaTecnica() + "\n"));
 
                     }else{
                         System.out.println("Calificaicon invalida \nLas peliculas son puntudas de 1 a 5");
                     }
                 }
                 case FILTRARPORDURACION -> {
-                    System.out.println("Escoja una opcion \n1. Pelicula mas larga \n2. Pelicula mas corta");
+                    System.out.println("Escoja una opcion \n1. Contenido mas larga \n2. Contenido mas corta");
                     int calificaiconOpcion = ScannerUtils.textoInt("");
 
-                    List<Pelicula> peliculaList = plataforma.getPeliculaDuracion(calificaiconOpcion);
-                    peliculaList.forEach(pelicula -> System.out.println(pelicula.obtenerFichaTecnica() + "\n"));
+                    List<Contenido> contenidoList = plataforma.getPeliculaDuracion(calificaiconOpcion);
+                    contenidoList.forEach(contenido -> System.out.println(contenido.obtenerFichaTecnica() + "\n"));
 
                 }
                 case SALIR -> System.exit(0);
@@ -128,17 +145,8 @@ public class Main {
         }
     }
 
-    private static void cargarPeliculas(Plataforma plataforma){
-        plataforma.agregar(new Pelicula("Inception", 148, Genero.CIENCIA_FICCICON, Idioma.ESPANOL,  Calidad.ESTANDAR, 2.6));
-        plataforma.agregar(new Pelicula("The Godfather", 175, Genero.COMEDIA,  Idioma.INGLES, Calidad.ALTA_DEFINICION,4.0));
-        plataforma.agregar(new Pelicula("The Dark Knight", 152, Genero.ACCION,  Idioma.INGLES, Calidad.ALTA_DEFINICION,3.7));
-        plataforma.agregar(new Pelicula("Interstellar", 169, Genero.CIENCIA_FICCICON,  Idioma.INGLES, Calidad.ESTANDAR,3.0));
-        plataforma.agregar(new Pelicula("Parasite", 132, Genero.DRAMA,  Idioma.FRANCES, Calidad.ESTANDAR,4.0));
-        plataforma.agregar(new Pelicula("Forrest Gump", 142, Genero.DRAMA,  Idioma.FRANCES, Calidad.ULTRA_DEFINICION,4.7));
-        plataforma.agregar(new Pelicula("The Matrix", 136, Genero.CIENCIA_FICCICON,  Idioma.ESPANOL, Calidad.ULTRA_DEFINICION,4.3));
-        plataforma.agregar(new Pelicula("Gladiator", 155, Genero.ACCION,  Idioma.PORTUGUES, Calidad.ULTRA_DEFINICION,2.1));
-        plataforma.agregar(new Pelicula("Toy Story", 81, Genero.ANIMADA,  Idioma.ESPANOL, Calidad.ULTRA_DEFINICION,3.9));
-        plataforma.agregar(new Pelicula("Titanic", 195, Genero.DRAMA,  Idioma.PORTUGUES, Calidad.ALTA_DEFINICION,4.1));
+    private static void cargarPeliculas(Plataforma plataforma) {
+        plataforma.getcontenido().addAll(FileUtils.leerContenido());
     }
 
 }
