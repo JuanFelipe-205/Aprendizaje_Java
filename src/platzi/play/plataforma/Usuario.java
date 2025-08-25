@@ -27,7 +27,7 @@ public class Usuario {
     /// Metodos
     public void ver(Pelicula pelicula){
         System.out.println(nombreCompleto());
-        pelicula.reporducir();
+        pelicula.reporducirPelicula();
         System.out.println();
     }
 

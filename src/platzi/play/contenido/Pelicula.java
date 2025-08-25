@@ -1,40 +1,49 @@
 package platzi.play.contenido;
 
+import platzi.play.contenido.Enums.Calidad;
+import platzi.play.contenido.Enums.Genero;
+import platzi.play.contenido.Enums.Idioma;
+
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Pelicula {
 
     /// El valor por refencia de estos datos es NULL, 0, false.
     private String titulo;
     private int duracion;
-    private String genero;
+    private Genero genero;
+    private Idioma idioma;
+    private Calidad calidad;
     private LocalDate fechaEstreno;
     private double calificacion;
     private boolean disponible;
 
     /// Constructores
-    public Pelicula(String titulo, int duracion, String genero) {
+    public Pelicula(String titulo, int duracion, Genero genero, Idioma idioma, Calidad calidad) {
         this.titulo = titulo;
         this.duracion = duracion;
         this.genero = genero;
+        this.idioma = idioma;
+        this.calidad = calidad;
         this.fechaEstreno = LocalDate.now();
         this.disponible = true;
     }
 
-    public Pelicula(String titulo, int duracion, String genero, double calificacion) {
-        this(titulo, duracion, genero);
-       this.calificar(calificacion);
+    public Pelicula(String titulo, int duracion, Genero genero, Idioma idioma, Calidad calidad, double calificacion) {
+        this(titulo, duracion, genero, idioma, calidad);
+        this.calificar(calificacion);
     }
 
     /// Metodos
-    public void reporducir(){
+    public void reporducirPelicula(){
         System.out.println("Reproduciendo ... "+ titulo);
     }
 
     public String obtenerFichaTecnica(){
         return titulo + " (" + fechaEstreno.getYear() + ") " +
                 "\nGenero: " + genero +
+                "\nIdioma:" + idioma +
+                "\nCalidad: " + calidad +
                 "\nDuracion: " + duracion +
                 "\nCalficacion: " + cantidadEstrellas(this.calificacion);
     }
@@ -69,18 +78,16 @@ public class Pelicula {
         return duracion;
     }
 
-    public String getGenero() {
+    public Genero getGenero() {
         return genero;
     }
-
-    public void setGenero(String genero) {
+    public void setGenero(Genero genero) {
         this.genero = genero;
     }
 
     public LocalDate getFechaEstreno() {
         return fechaEstreno;
     }
-
     public void setFechaEstreno(LocalDate fechaEstreno) {
         this.fechaEstreno = fechaEstreno;
     }
@@ -88,7 +95,6 @@ public class Pelicula {
     public double getCalificacion() {
         return calificacion;
     }
-
     public void setCalificacion(double calificacion) {
         this.calificacion = calificacion;
     }
@@ -96,7 +102,6 @@ public class Pelicula {
     public boolean isDisponible() {
         return disponible;
     }
-
     public void setDisponible(boolean disponible) {
         this.disponible = disponible;
     }
